@@ -11,7 +11,7 @@ This project explores the classification of chest X-ray images into two categori
 
 The main objective is to compare traditional machine learning approaches with deep learning using transfer learning.
 
-The project also explores model interpretability through Grad-CAM visualizations.
+The project also explores model interpretability through Grad-CAM visualizations and provides an interactive interface using Streamlit.
 
 ## Models and Methods
 
@@ -85,6 +85,33 @@ For the example below, MobileNetV2 predicted **PNEUMONIA** with a probability of
 
 Grad-CAM provides a visual explanation of model behavior. These heatmaps should not be interpreted as clinical evidence or definitive lesion localization.
 
+## Streamlit Application
+
+An interactive web application was developed using Streamlit.
+
+The application allows users to:
+
+- Upload a chest X-ray image (JPG, JPEG, or PNG).
+- View the model's predicted class: NORMAL or PNEUMONIA.
+- View the predicted pneumonia and normal probabilities.
+- Generate a Grad-CAM visualization to inspect image regions influencing the prediction.
+
+### Running the Application
+
+Before running the application, make sure the trained model file is available at:
+
+`models/mobilenetv2_best.keras`
+
+**Note:** The trained model file is not included in this GitHub repository and must be obtained separately.
+
+Run the application from the project root directory:
+
+```bash
+streamlit run app.py
+```
+
+After starting the application, open the local URL displayed in the terminal (usually `http://localhost:8501`).
+
 ## Evaluation Metrics
 
 The project uses:
@@ -107,6 +134,7 @@ Particular attention is given to pneumonia recall because false negatives are im
 - Pandas
 - Matplotlib
 - Streamlit
+- Pillow
 
 ## Project Structure
 
@@ -127,12 +155,16 @@ pneumonia_xray/
 
 ## Installation
 
-Clone the repository and install the required dependencies:
+Clone the repository:
 
 ```bash
 git clone https://github.com/reyhaanezamzami-gif/pneumonia_xray.git
 cd pneumonia_xray
+```
 
+Create a virtual environment:
+
+```bash
 python -m venv .venv
 ```
 
@@ -142,13 +174,13 @@ Activate the virtual environment on Windows:
 .venv\Scripts\activate
 ```
 
-Install dependencies:
+Install the required dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-**Dataset and pretrained model weights are not included in the repository.** They must be obtained separately and placed in the expected project directories.
+**Important:** The dataset, trained model, and pretrained model weights are not included in the repository. They must be obtained separately and placed in the expected project directories.
 
 ## Reproducibility
 
@@ -159,10 +191,10 @@ python -m pip install -r requirements.txt
 
 ## Project Status
 
-**Completed — Model training, independent test evaluation, and Grad-CAM visualization.**
+**Completed — Model training, independent test evaluation, Grad-CAM visualization, and Streamlit application.**
 
 ## Disclaimer
 
 This project is intended for educational and research purposes only.
 
-It is not a medical diagnostic tool and must not be used as a substitute for professional medical evaluation.
+It is not a medical diagnostic tool and must not be used as a substitute for professional medical evaluation or clinical decisions.
