@@ -1,165 +1,138 @@
 ﻿# Pneumonia Detection from Chest X-Ray Images
 
-
+**A Machine Learning and Deep Learning Project for Medical Image Classification**
 
 ## Project Overview
 
+This project explores the classification of chest X-ray images into two categories:
 
+- **NORMAL** — No pneumonia detected.
+- **PNEUMONIA** — Pneumonia detected.
 
-This project develops and evaluates machine learning and deep learning
+The main objective is to compare traditional machine learning approaches with deep learning using transfer learning.
 
-models to classify chest X-ray images into two categories:
+The project also explores model interpretability through Grad-CAM visualizations.
 
+## Models and Methods
 
+The following approaches are implemented and evaluated:
 
-- `NORMAL`: no pneumonia detected
-
-- `PNEUMONIA`: pneumonia detected
-
-
-
-The project compares hand-crafted image features with a
-
-MobileNetV2 transfer learning model.
-
-
+1. **HOG and LBP** — Hand-crafted image feature extraction.
+2. **Support Vector Machine (SVM)** — Traditional classification baseline.
+3. **Random Forest** — Traditional classification baseline.
+4. **MobileNetV2** — Transfer learning for image classification.
+5. **Grad-CAM** — Visualization of image regions influencing model predictions.
 
 ## Dataset
 
+**Dataset:** Chest X-Ray Images (Pneumonia)  
+**Source:** Kaggle — `paultimothymooney/chest-xray-pneumonia`
 
+The dataset contains chest X-ray images organized into NORMAL and PNEUMONIA classes.
 
-Dataset: Chest X-Ray Images (Pneumonia)
+The original validation folder is not used. Instead, a stratified validation split is created from the training data. The test set remains separate for final evaluation.
 
+## Dataset Statistics
 
+| Split | NORMAL | PNEUMONIA | Total |
+|---|---:|---:|---:|
+| Training | 1,140 | 3,293 | 4,433 |
+| Validation | 201 | 582 | 783 |
+| Test | 234 | 390 | 624 |
 
-Source: Kaggle â€” `paultimothymooney/chest-xray-pneumonia`
+## Baseline Results
 
+Initial experiments with hand-crafted image features produced the following results:
 
+| Model | Accuracy | Pneumonia Recall | F1-score |
+|---|---:|---:|---:|
+| SVM | 98.21% | 99.14% | 98.80% |
+| Random Forest | 96.42% | 98.63% | 97.62% |
 
-Expected directory structure:
+**Primary evaluation metric:** Recall for the PNEUMONIA class.
 
+MobileNetV2 results will be added after the final evaluation.
 
+## Evaluation Metrics
 
-&#x20;   data/chest\_xray/
-
-&#x20;       train/
-
-&#x20;           NORMAL/
-
-&#x20;           PNEUMONIA/
-
-&#x20;       val/
-
-&#x20;           NORMAL/
-
-&#x20;           PNEUMONIA/
-
-&#x20;       test/
-
-&#x20;           NORMAL/
-
-&#x20;           PNEUMONIA/
-
-
-
-The original validation folder will not be used for model validation.
-
-A stratified validation split will be created from the training data.
-
-The test set will remain separate for final evaluation.
-
-
-
-## Models
-
-
-
-1. HOG and LBP image features with traditional machine learning.
-
-2. Support Vector Machine (SVM) baseline.
-
-3. Random Forest baseline.
-
-4. MobileNetV2 transfer learning model.
-
-5. Manual Grad-CAM visualization for model interpretation.
-
-
-
-## Evaluation
-
-
-
-The project reports relevant classification metrics, including:
-
-
+The project uses:
 
 - Accuracy
-
 - Precision
-
 - Recall
-
 - F1-score
+- Confusion Matrix
 
-- Confusion matrix
+Particular attention is given to pneumonia recall because false negatives are important in medical image classification.
 
+## Technology Stack
 
-
-Recall for the `PNEUMONIA` class is the primary evaluation metric.
-
-
-
-## Environment Setup
-
-
-
-Python 3.10 is recommended.
-
-
-
-Create and activate a virtual environment, then install dependencies:
-
-
-
-&#x20;   python -m pip install -r requirements.txt
-
-
+- Python 3.10
+- TensorFlow / Keras
+- Scikit-learn
+- OpenCV
+- NumPy
+- Pandas
+- Matplotlib
+- Streamlit
 
 ## Project Structure
 
+```text
+pneumonia_xray/
+├── data/
+├── models/
+├── outputs/
+│   ├── figures/
+│   ├── gradcam/
+│   └── metrics/
+├── src/
+├── app.py
+├── checkpoint.md
+├── requirements.txt
+└── README.md
+```
 
+## Installation
 
-- `data/`: dataset and data splits
+Clone the repository and install the required dependencies:
 
-- `src/`: configuration, preprocessing, features, models, and evaluation
+```bash
+git clone https://github.com/reyhaanezamzami-gif/pneumonia_xray.git
+cd pneumonia_xray
 
-- `models/`: saved trained models
+python -m venv .venv
+```
 
-- `outputs/`: figures, metrics, and Grad-CAM results
+Activate the virtual environment on Windows:
 
-- `app.py`: Streamlit application
+```cmd
+.venv\Scripts\activate
+```
 
-- `checkpoint.md`: project progress tracking
+Install dependencies:
 
+```bash
+python -m pip install -r requirements.txt
+```
 
+**Dataset and pretrained model weights are not included in the repository.** They must be obtained separately and placed in the expected project directories.
 
 ## Reproducibility
 
+- Random seed: `42`
+- Input image size: `224 × 224`
+- Stratified validation split
+- Independent test set for final evaluation
 
+## Project Status
 
-The project uses random seed `42` for reproducibility where supported.
+**In Progress**
 
-
+Traditional machine learning baselines have been evaluated. MobileNetV2 transfer learning and model interpretation are part of the ongoing development.
 
 ## Disclaimer
 
-
-
 This project is intended for educational and research purposes only.
 
-It is not a medical diagnostic tool and must not be used as a substitute
-
-for professional medical evaluation.
-
-
+It is not a medical diagnostic tool and must not be used as a substitute for professional medical evaluation.
