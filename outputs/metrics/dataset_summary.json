@@ -1,0 +1,20 @@
+{
+  "dataset_dir": "C:\\Users\\reyhane\\Desktop\\pneumonia_xray\\data\\chest_xray",
+  "splits": {
+    "train": {
+      "NORMAL": 1341,
+      "PNEUMONIA": 3875,
+      "total": 5216
+    },
+    "val": {
+      "NORMAL": 8,
+      "PNEUMONIA": 8,
+      "total": 16
+    },
+    "test": {
+      "NORMAL": 234,
+      "PNEUMONIA": 390,
+      "total": 624
+    }
+  }
+}

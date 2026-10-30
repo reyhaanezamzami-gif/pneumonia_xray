@@ -1,0 +1,16 @@
+{
+  "validation_samples": 783,
+  "feature_count": 6100,
+  "models": {
+    "SVM": {
+      "accuracy": 0.9821200510855683,
+      "pneumonia_recall": 0.9914089347079038,
+      "pneumonia_f1": 0.988013698630137
+    },
+    "RandomForest": {
+      "accuracy": 0.9642401021711366,
+      "pneumonia_recall": 0.9862542955326461,
+      "pneumonia_f1": 0.9761904761904762
+    }
+  }
+}
