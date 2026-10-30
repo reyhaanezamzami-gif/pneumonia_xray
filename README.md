@@ -49,9 +49,41 @@ Initial experiments with hand-crafted image features produced the following resu
 | SVM | 98.21% | 99.14% | 98.80% |
 | Random Forest | 96.42% | 98.63% | 97.62% |
 
-**Primary evaluation metric:** Recall for the PNEUMONIA class.
+## MobileNetV2 Results
 
-MobileNetV2 results will be added after the final evaluation.
+MobileNetV2 was trained using transfer learning with pretrained ImageNet weights. The backbone was frozen, followed by Global Average Pooling, Dropout, and a sigmoid classification layer.
+
+The model was evaluated on the independent test set.
+
+| Metric | Result |
+|---|---:|
+| Accuracy | 85.26% |
+| Pneumonia Precision | 83.41% |
+| Pneumonia Recall | 95.38% |
+| Pneumonia F1-score | 89.00% |
+
+### Confusion Matrix
+
+The confusion matrix below shows the classification results on the independent test set.
+
+| Actual / Predicted | NORMAL | PNEUMONIA |
+|---|---:|---:|
+| NORMAL | 160 | 74 |
+| PNEUMONIA | 18 | 372 |
+
+![MobileNetV2 Test Confusion Matrix](outputs/figures/mobilenetv2_test_confusion_matrix.png)
+
+The model correctly classified 372 pneumonia images and 160 normal images. It misclassified 18 pneumonia images as normal and 74 normal images as pneumonia.
+
+## Model Interpretability — Grad-CAM
+
+Grad-CAM was used to visualize image regions that contributed to the model's prediction.
+
+For the example below, MobileNetV2 predicted **PNEUMONIA** with a probability of **96.01%**.
+
+![Grad-CAM Visualization](outputs/gradcam/person1000_bacteria_2931_gradcam.png)
+
+Grad-CAM provides a visual explanation of model behavior. These heatmaps should not be interpreted as clinical evidence or definitive lesion localization.
 
 ## Evaluation Metrics
 
@@ -127,9 +159,7 @@ python -m pip install -r requirements.txt
 
 ## Project Status
 
-**In Progress**
-
-Traditional machine learning baselines have been evaluated. MobileNetV2 transfer learning and model interpretation are part of the ongoing development.
+**Completed — Model training, independent test evaluation, and Grad-CAM visualization.**
 
 ## Disclaimer
 
