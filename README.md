@@ -2,67 +2,58 @@
 
 **A Machine Learning and Deep Learning Project for Medical Image Classification**
 
-## 1. Project Overview
+## Project Overview
 
-This project focuses on classifying chest X-ray images into two categories:
+This project explores the classification of chest X-ray images into two categories:
 
 - **NORMAL** — No pneumonia detected.
 - **PNEUMONIA** — Pneumonia detected.
 
-The main objective is to compare traditional machine learning algorithms with deep learning approaches using transfer learning.
+The main objective is to compare traditional machine learning approaches with deep learning using transfer learning.
 
-The project also explores model interpretability using Grad-CAM (Gradient-weighted Class Activation Mapping).
+The project also explores model interpretability through Grad-CAM visualizations and provides an interactive interface using Streamlit.
 
-## 2. Models and Methods
+## Models and Methods
 
-The following methods are implemented and evaluated:
+The following approaches are implemented and evaluated:
 
-1. **HOG and LBP:** Hand-crafted image feature extraction.
-2. **Support Vector Machine (SVM):** Traditional machine learning classifier.
-3. **Random Forest:** Ensemble machine learning classifier.
-4. **MobileNetV2:** Deep learning model using transfer learning.
-5. **Grad-CAM:** Visualization of image regions influencing model predictions.
+1. **HOG and LBP** — Hand-crafted image feature extraction.
+2. **Support Vector Machine (SVM)** — Traditional classification baseline.
+3. **Random Forest** — Traditional classification baseline.
+4. **MobileNetV2** — Transfer learning for image classification.
+5. **Grad-CAM** — Visualization of image regions influencing model predictions.
 
-## 3. Dataset
+## Dataset
 
 **Dataset:** Chest X-Ray Images (Pneumonia)  
 **Source:** Kaggle — `paultimothymooney/chest-xray-pneumonia`
 
-The dataset contains chest X-ray images belonging to two classes: NORMAL and PNEUMONIA.
+The dataset contains chest X-ray images organized into NORMAL and PNEUMONIA classes.
 
-The original validation directory is not used. Instead, a stratified validation split is created from the training data.
+The original validation folder is not used. Instead, a stratified validation split is created from the training data. The test set remains separate for final evaluation.
 
-The test set remains independent and is used only for final model evaluation.
+## Dataset Statistics
 
-## 4. Dataset Statistics
-
-| Dataset Split | NORMAL | PNEUMONIA | Total |
+| Split | NORMAL | PNEUMONIA | Total |
 |---|---:|---:|---:|
 | Training | 1,140 | 3,293 | 4,433 |
 | Validation | 201 | 582 | 783 |
 | Test | 234 | 390 | 624 |
-| **Total** | **1,575** | **4,265** | **5,840** |
 
-## 5. Baseline Results
+## Baseline Results
 
-Initial experiments using hand-crafted image features produced the following validation results:
+Initial experiments with hand-crafted image features produced the following results:
 
 | Model | Accuracy | Pneumonia Recall | F1-score |
 |---|---:|---:|---:|
 | SVM | 98.21% | 99.14% | 98.80% |
 | Random Forest | 96.42% | 98.63% | 97.62% |
 
-**Primary evaluation metric:** Recall for the PNEUMONIA class.
+## MobileNetV2 Results
 
-## 6. MobileNetV2 — Independent Test Results
-
-MobileNetV2 was implemented using transfer learning with pretrained weights.
-
-The convolutional base was used as a feature extractor, followed by a classification head.
+MobileNetV2 was trained using transfer learning with pretrained ImageNet weights. The backbone was frozen, followed by Global Average Pooling, Dropout, and a sigmoid classification layer.
 
 The model was evaluated on the independent test set.
-
-### Test Performance
 
 | Metric | Result |
 |---|---:|
@@ -70,50 +61,60 @@ The model was evaluated on the independent test set.
 | Pneumonia Precision | 83.41% |
 | Pneumonia Recall | 95.38% |
 | Pneumonia F1-score | 89.00% |
-| NORMAL Recall | 68.38% |
 
 ### Confusion Matrix
 
-The following confusion matrix summarizes the model's predictions:
+The confusion matrix below shows the classification results on the independent test set.
 
-![MobileNetV2 Test Confusion Matrix](outputs/figures/mobilenetv2_test_confusion_matrix.png)
-
-| Actual Class / Predicted Class | NORMAL | PNEUMONIA |
+| Actual / Predicted | NORMAL | PNEUMONIA |
 |---|---:|---:|
 | NORMAL | 160 | 74 |
 | PNEUMONIA | 18 | 372 |
 
-### Results Interpretation
+![MobileNetV2 Test Confusion Matrix](outputs/figures/mobilenetv2_test_confusion_matrix.png)
 
-- 160 NORMAL images were correctly classified.
-- 74 NORMAL images were incorrectly classified as PNEUMONIA.
-- 18 PNEUMONIA images were incorrectly classified as NORMAL.
-- 372 PNEUMONIA images were correctly classified.
+The model correctly classified 372 pneumonia images and 160 normal images. It misclassified 18 pneumonia images as normal and 74 normal images as pneumonia.
 
-The model achieved high pneumonia recall (95.38%). However, NORMAL-class recall was lower (68.38%).
+## Model Interpretability — Grad-CAM
 
-This indicates that the model still has difficulty distinguishing some normal X-ray images from pneumonia cases.
+Grad-CAM was used to visualize image regions that contributed to the model's prediction.
 
-## 7. Grad-CAM Visualization
-
-Grad-CAM (Gradient-weighted Class Activation Mapping) is an interpretability technique used to visualize image regions that contribute to a model's prediction.
-
-The following example shows the original chest X-ray image alongside its Grad-CAM heatmap overlay.
+For the example below, MobileNetV2 predicted **PNEUMONIA** with a probability of **96.01%**.
 
 ![Grad-CAM Visualization](outputs/gradcam/person1000_bacteria_2931_gradcam.png)
 
-### Example Prediction
+Grad-CAM provides a visual explanation of model behavior. These heatmaps should not be interpreted as clinical evidence or definitive lesion localization.
 
-- **Predicted class:** PNEUMONIA
-- **Pneumonia probability:** 96.01%
+## Streamlit Application
 
-The heatmap provides an approximate visual explanation of the regions influencing the model's prediction.
+An interactive web application was developed using Streamlit.
 
-Grad-CAM does not establish clinical validity and does not prove that the model focuses on medically relevant regions.
+The application allows users to:
 
-## 8. Evaluation Metrics
+- Upload a chest X-ray image (JPG, JPEG, or PNG).
+- View the model's predicted class: NORMAL or PNEUMONIA.
+- View the predicted pneumonia and normal probabilities.
+- Generate a Grad-CAM visualization to inspect image regions influencing the prediction.
 
-The following evaluation metrics are used:
+### Running the Application
+
+Before running the application, make sure the trained model file is available at:
+
+`models/mobilenetv2_best.keras`
+
+**Note:** The trained model file is not included in this GitHub repository and must be obtained separately.
+
+Run the application from the project root directory:
+
+```bash
+streamlit run app.py
+```
+
+After starting the application, open the local URL displayed in the terminal (usually `http://localhost:8501`).
+
+## Evaluation Metrics
+
+The project uses:
 
 - Accuracy
 - Precision
@@ -121,11 +122,9 @@ The following evaluation metrics are used:
 - F1-score
 - Confusion Matrix
 
-Particular attention is given to pneumonia recall because false negative predictions are important in medical image classification.
+Particular attention is given to pneumonia recall because false negatives are important in medical image classification.
 
-## 9. Technology Stack
-
-The project uses the following technologies and libraries:
+## Technology Stack
 
 - Python 3.10
 - TensorFlow / Keras
@@ -135,36 +134,31 @@ The project uses the following technologies and libraries:
 - Pandas
 - Matplotlib
 - Streamlit
+- Pillow
 
-## 10. Project Structure
+## Project Structure
 
 ```text
 pneumonia_xray/
-│
 ├── data/
-│
 ├── models/
-│
 ├── outputs/
 │   ├── figures/
 │   ├── gradcam/
 │   └── metrics/
-│
 ├── src/
-│
 ├── app.py
 ├── checkpoint.md
 ├── requirements.txt
 └── README.md
 ```
 
-## 11. Installation
+## Installation
 
 Clone the repository:
 
 ```bash
 git clone https://github.com/reyhaanezamzami-gif/pneumonia_xray.git
-
 cd pneumonia_xray
 ```
 
@@ -186,35 +180,21 @@ Install the required dependencies:
 python -m pip install -r requirements.txt
 ```
 
-**Important:** Dataset files and pretrained model weights are not included in the repository. They must be obtained separately and placed in the expected project directories.
+**Important:** The dataset, trained model, and pretrained model weights are not included in the repository. They must be obtained separately and placed in the expected project directories.
 
-## 12. Reproducibility
-
-The following settings are used to support reproducibility:
+## Reproducibility
 
 - Random seed: `42`
 - Input image size: `224 × 224`
 - Stratified validation split
 - Independent test set for final evaluation
 
-## 13. Project Status
+## Project Status
 
-**Status: In Progress**
+**Completed — Model training, independent test evaluation, Grad-CAM visualization, and Streamlit application.**
 
-The project currently includes:
-
-- Traditional machine learning baselines.
-- HOG and LBP feature extraction.
-- SVM and Random Forest classification.
-- MobileNetV2 transfer learning.
-- Independent test evaluation.
-- Confusion matrix visualization.
-- Grad-CAM implementation and visualization.
-
-Future improvements may focus on model generalization, NORMAL-class performance, hyperparameter optimization, and interpretability.
-
-## 14. Disclaimer
+## Disclaimer
 
 This project is intended for educational and research purposes only.
 
-It is not a medical diagnostic tool and must not be used as a substitute for professional medical evaluation.
+It is not a medical diagnostic tool and must not be used as a substitute for professional medical evaluation or clinical decisions.

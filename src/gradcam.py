@@ -1,4 +1,4 @@
-﻿"""Generate Grad-CAM visualizations for the trained MobileNetV2 model."""
+"""Generate Grad-CAM visualizations for the trained MobileNetV2 model."""
 
 import argparse
 from pathlib import Path
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 from src.config import (
-    MODELS_DIR,
+    CNN_NIH_MODEL_PATH,
     GRADCAM_DIR,
     IMAGE_SIZE,
     ensure_directories,
@@ -135,9 +135,9 @@ def generate_gradcam(image_path):
 
     image_path = Path(image_path)
 
-    if not (MODELS_DIR / "mobilenetv2_augmented.keras").exists():
+    if not CNN_NIH_MODEL_PATH.exists():
         raise FileNotFoundError(
-            f'Model not found: {MODELS_DIR / "mobilenetv2_augmented.keras"}'
+            f'Model not found: {CNN_NIH_MODEL_PATH}'
         )
 
     if not image_path.exists():
@@ -146,7 +146,7 @@ def generate_gradcam(image_path):
         )
 
     model = tf.keras.models.load_model(
-        str(MODELS_DIR / "mobilenetv2_augmented.keras")
+        str(CNN_NIH_MODEL_PATH)
     )
 
     image = load_xray(image_path)
