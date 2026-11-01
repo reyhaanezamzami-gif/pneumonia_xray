@@ -1,133 +1,179 @@
-﻿# Pneumonia Detection from Chest X-Ray Images
+# Pneumonia Detection from Chest X-Ray Images
 
-**A Machine Learning and Deep Learning Project for Medical Image Classification**
+**An Artificial Intelligence Project for Medical Image Classification**
 
 ## Project Overview
 
-This project explores the classification of chest X-ray images into two categories:
+This project investigates the classification of chest X-ray images into two categories:
 
-- **NORMAL** — No pneumonia detected.
-- **PNEUMONIA** — Pneumonia detected.
+- **NORMAL** — No pneumonia label detected.
+- **PNEUMONIA** — Pneumonia label detected.
 
-The main objective is to compare traditional machine learning approaches with deep learning using transfer learning.
+The objective is to compare traditional machine learning methods with deep learning and evaluate the impact of supplementary training data.
 
-The project also explores model interpretability through Grad-CAM visualizations and provides an interactive interface using Streamlit.
+The project also includes Grad-CAM visualizations for model interpretability and a custom Streamlit application called **AURA**.
 
 ## Models and Methods
 
-The following approaches are implemented and evaluated:
-
 1. **HOG and LBP** — Hand-crafted image feature extraction.
-2. **Support Vector Machine (SVM)** — Traditional classification baseline.
-3. **Random Forest** — Traditional classification baseline.
-4. **MobileNetV2** — Transfer learning for image classification.
-5. **Grad-CAM** — Visualization of image regions influencing model predictions.
+2. **Support Vector Machine (SVM)** — Traditional machine learning baseline.
+3. **Random Forest** — Traditional machine learning baseline.
+4. **MobileNetV2** — Deep learning architecture for X-ray classification.
+5. **Data Augmentation** — Training-time image augmentation.
+6. **NIH Supplementary Data** — A small supplementary dataset used during CNN training.
+7. **Grad-CAM** — Visualization of image regions influencing model predictions.
 
-## Dataset
+## Datasets
 
-**Dataset:** Chest X-Ray Images (Pneumonia)  
-**Source:** Kaggle — `paultimothymooney/chest-xray-pneumonia`
+### Primary Dataset
 
-The dataset contains chest X-ray images organized into NORMAL and PNEUMONIA classes.
+**Chest X-Ray Images (Pneumonia)**  
+Source: Kaggle — `paultimothymooney/chest-xray-pneumonia`
 
-The original validation folder is not used. Instead, a stratified validation split is created from the training data. The test set remains separate for final evaluation.
+The primary dataset contains chest X-ray images labeled NORMAL and PNEUMONIA.
 
-## Dataset Statistics
+The original validation folder was not used. A stratified, group-based validation split was created from the training data. The independent test set was kept separate from training.
+
+### Dataset Statistics
 
 | Split | NORMAL | PNEUMONIA | Total |
 |---|---:|---:|---:|
-| Training | 1,140 | 3,293 | 4,433 |
-| Validation | 201 | 582 | 783 |
+| Training | 1,147 | 3,322 | 4,469 |
+| Validation | 194 | 553 | 747 |
 | Test | 234 | 390 | 624 |
 
-## Baseline Results
+### Supplementary NIH Dataset
 
-Initial experiments with hand-crafted image features produced the following results:
+A small balanced subset of the NIH ChestX-ray14 dataset was used as supplementary training data.
 
-| Model | Accuracy | Pneumonia Recall | F1-score |
-|---|---:|---:|---:|
-| SVM | 98.21% | 99.14% | 98.80% |
-| Random Forest | 96.42% | 98.63% | 97.62% |
+- 65 images labeled Pneumonia.
+- 48 images labeled No Finding.
+- 113 images in total.
+- 94 unique patients.
 
-## MobileNetV2 Results
+The NIH subset was added to the training data only. The original validation and test sets remained unchanged.
 
-MobileNetV2 was trained using transfer learning with pretrained ImageNet weights. The backbone was frozen, followed by Global Average Pooling, Dropout, and a sigmoid classification layer.
+**Important limitation:** NIH labels are report-derived and may be noisy. The No Finding label does not establish that an image is clinically normal. The supplementary subset is small and should not be interpreted as definitive evidence of improved generalization.
 
-The model was evaluated on the independent test set.
+## Baseline Models
+
+Traditional machine learning models were evaluated using HOG, LBP, and image intensity features.
+
+### Independent Test Results
+
+| Metric | SVM | Random Forest |
+|---|---:|---:|
+| Accuracy | 75.00% | 71.96% |
+| Balanced Accuracy | 66.75% | 62.95% |
+| Precision | 71.51% | 69.30% |
+| Pneumonia Recall | 99.74% | 98.97% |
+| Specificity | 33.76% | 26.92% |
+| F1-score | 83.30% | 81.52% |
+| ROC-AUC | 92.96% | 93.39% |
+
+## Deep Learning Model — MobileNetV2
+
+MobileNetV2 was used as the CNN architecture.
+
+The model pipeline includes:
+
+- Input image size: 224 × 224 pixels.
+- RGB image preprocessing.
+- Data augmentation during training.
+- MobileNetV2 feature extraction.
+- Global Average Pooling.
+- Dropout.
+- Sigmoid binary classification output.
+
+A supplementary NIH training experiment was also conducted. The final model is saved as:
+
+`models/mobilenetv2_nih.keras`
+
+### Final Model — Independent Test Results
 
 | Metric | Result |
 |---|---:|
-| Accuracy | 85.26% |
-| Pneumonia Precision | 83.41% |
-| Pneumonia Recall | 95.38% |
-| Pneumonia F1-score | 89.00% |
+| Accuracy | 86.86% |
+| Balanced Accuracy | 83.08% |
+| Pneumonia Precision | 83.62% |
+| Pneumonia Recall | 98.21% |
+| Specificity | 67.95% |
+| F1-score | 90.33% |
+| ROC-AUC | 96.01% |
+| PR-AUC | 97.23% |
 
 ### Confusion Matrix
 
-The confusion matrix below shows the classification results on the independent test set.
-
 | Actual / Predicted | NORMAL | PNEUMONIA |
 |---|---:|---:|
-| NORMAL | 160 | 74 |
-| PNEUMONIA | 18 | 372 |
+| NORMAL | 159 | 75 |
+| PNEUMONIA | 7 | 383 |
 
-![MobileNetV2 Test Confusion Matrix](outputs/figures/mobilenetv2_test_confusion_matrix.png)
+![MobileNetV2 NIH Test Confusion Matrix](outputs/figures/mobilenetv2_nih_test_confusion_matrix.png)
 
-The model correctly classified 372 pneumonia images and 160 normal images. It misclassified 18 pneumonia images as normal and 74 normal images as pneumonia.
+The model correctly classified 383 pneumonia images and 159 normal images. It misclassified 7 pneumonia images as normal and 75 normal images as pneumonia.
 
 ## Model Interpretability — Grad-CAM
 
-Grad-CAM was used to visualize image regions that contributed to the model's prediction.
+Grad-CAM was integrated to visualize image regions that influence the model's predictions.
 
-For the example below, MobileNetV2 predicted **PNEUMONIA** with a probability of **96.01%**.
+![Grad-CAM Visualization](outputs/gradcam/person100_bacteria_475_gradcam.png)
 
-![Grad-CAM Visualization](outputs/gradcam/person1000_bacteria_2931_gradcam.png)
+Grad-CAM provides a visual indication of model attention. It does not prove that the highlighted regions represent pneumonia lesions or provide a clinical explanation.
 
-Grad-CAM provides a visual explanation of model behavior. These heatmaps should not be interpreted as clinical evidence or definitive lesion localization.
+## AURA — Streamlit Application
 
-## Streamlit Application
-
-An interactive web application was developed using Streamlit.
+**AURA** is the custom interactive interface developed for this project.
 
 The application allows users to:
 
-- Upload a chest X-ray image (JPG, JPEG, or PNG).
-- View the model's predicted class: NORMAL or PNEUMONIA.
-- View the predicted pneumonia and normal probabilities.
-- Generate a Grad-CAM visualization to inspect image regions influencing the prediction.
+- Upload chest X-ray images in JPG, JPEG, or PNG format.
+- Receive a NORMAL or PNEUMONIA prediction.
+- View predicted class probabilities.
+- Generate Grad-CAM heatmaps.
+- Inspect visual regions influencing the model prediction.
 
-### Running the Application
+The application uses the NIH-trained MobileNetV2 model and a default decision threshold of 0.50.
 
-Before running the application, make sure the trained model file is available at:
+### Run AURA Locally
 
-`models/mobilenetv2_best.keras`
+Ensure that the trained model is available at:
 
-**Note:** The trained model file is not included in this GitHub repository and must be obtained separately.
+`models/mobilenetv2_nih.keras`
 
-Run the application from the project root directory:
+Run the following command from the project root:
 
 ```bash
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
-After starting the application, open the local URL displayed in the terminal (usually `http://localhost:8501`).
+Then open:
+
+`http://localhost:8501`
+
+The trained model and datasets are not included in the GitHub repository and must be supplied separately.
 
 ## Evaluation Metrics
 
-The project uses:
+The following metrics are used:
 
 - Accuracy
+- Balanced Accuracy
 - Precision
-- Recall
+- Recall (Sensitivity)
+- Specificity
 - F1-score
+- ROC-AUC
+- PR-AUC
 - Confusion Matrix
 
-Particular attention is given to pneumonia recall because false negatives are important in medical image classification.
+Particular attention is given to sensitivity and false negatives because missed pneumonia cases are important in medical image classification.
 
 ## Technology Stack
 
 - Python 3.10
-- TensorFlow / Keras
+- TensorFlow 2.15.1
+- Keras
 - Scikit-learn
 - OpenCV
 - NumPy
@@ -141,6 +187,7 @@ Particular attention is given to pneumonia recall because false negatives are im
 ```text
 pneumonia_xray/
 ├── data/
+│   └── splits/
 ├── models/
 ├── outputs/
 │   ├── figures/
@@ -148,7 +195,6 @@ pneumonia_xray/
 │   └── metrics/
 ├── src/
 ├── app.py
-├── checkpoint.md
 ├── requirements.txt
 └── README.md
 ```
@@ -168,33 +214,37 @@ Create a virtual environment:
 python -m venv .venv
 ```
 
-Activate the virtual environment on Windows:
+Activate it on Windows:
 
 ```cmd
 .venv\Scripts\activate
 ```
 
-Install the required dependencies:
+Install dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-**Important:** The dataset, trained model, and pretrained model weights are not included in the repository. They must be obtained separately and placed in the expected project directories.
+Download or provide the required dataset and trained model files in their expected directories before running the application.
 
 ## Reproducibility
 
 - Random seed: `42`
 - Input image size: `224 × 224`
-- Stratified validation split
-- Independent test set for final evaluation
+- Group-based stratified validation split
+- Independent test set
+- Training-time data augmentation
+- Fixed default evaluation threshold: `0.50`
 
 ## Project Status
 
-**Completed — Model training, independent test evaluation, Grad-CAM visualization, and Streamlit application.**
+**Completed:** Baseline experiments, CNN training, supplementary NIH training experiment, independent test evaluation, Grad-CAM integration, AURA Streamlit interface, and academic report.
 
 ## Disclaimer
 
 This project is intended for educational and research purposes only.
 
 It is not a medical diagnostic tool and must not be used as a substitute for professional medical evaluation or clinical decisions.
+
+The reported results are experimental and do not establish clinical validity or readiness for deployment.
