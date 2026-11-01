@@ -1,0 +1,123 @@
+{
+    "dataset": "validation",
+    "samples": 747,
+    "selection_method": "Youden's J statistic",
+    "recommended_threshold": 0.5432552695274353,
+    "youden_j": 0.9225965213176488,
+    "threshold_results": [
+        {
+            "threshold": 0.3,
+            "accuracy": 0.9571619812583668,
+            "balanced_accuracy": 0.9359305382077143,
+            "precision": 0.9626998223801065,
+            "recall": 0.9801084990958409,
+            "specificity": 0.8917525773195877,
+            "f1_score": 0.9713261648745519,
+            "confusion_matrix": [
+                [
+                    173,
+                    21
+                ],
+                [
+                    11,
+                    542
+                ]
+            ]
+        },
+        {
+            "threshold": 0.4,
+            "accuracy": 0.9598393574297188,
+            "balanced_accuracy": 0.9444314982942152,
+            "precision": 0.9694793536804309,
+            "recall": 0.976491862567812,
+            "specificity": 0.9123711340206185,
+            "f1_score": 0.972972972972973,
+            "confusion_matrix": [
+                [
+                    177,
+                    17
+                ],
+                [
+                    13,
+                    540
+                ]
+            ]
+        },
+        {
+            "threshold": 0.5,
+            "accuracy": 0.9625167336010709,
+            "balanced_accuracy": 0.9596251002032028,
+            "precision": 0.9834254143646409,
+            "recall": 0.9656419529837251,
+            "specificity": 0.9536082474226805,
+            "f1_score": 0.9744525547445255,
+            "confusion_matrix": [
+                [
+                    185,
+                    9
+                ],
+                [
+                    19,
+                    534
+                ]
+            ]
+        },
+        {
+            "threshold": 0.5432552695274353,
+            "accuracy": 0.9625167336010709,
+            "balanced_accuracy": 0.9612982606588244,
+            "precision": 0.9852125693160814,
+            "recall": 0.9638336347197106,
+            "specificity": 0.9587628865979382,
+            "f1_score": 0.9744058500914077,
+            "confusion_matrix": [
+                [
+                    186,
+                    8
+                ],
+                [
+                    20,
+                    533
+                ]
+            ]
+        },
+        {
+            "threshold": 0.6,
+            "accuracy": 0.9571619812583668,
+            "balanced_accuracy": 0.9593547845864171,
+            "precision": 0.9869158878504672,
+            "recall": 0.9547920433996383,
+            "specificity": 0.9639175257731959,
+            "f1_score": 0.9705882352941176,
+            "confusion_matrix": [
+                [
+                    187,
+                    7
+                ],
+                [
+                    25,
+                    528
+                ]
+            ]
+        },
+        {
+            "threshold": 0.7,
+            "accuracy": 0.9464524765729585,
+            "balanced_accuracy": 0.9521215115303592,
+            "precision": 0.9867172675521821,
+            "recall": 0.9403254972875226,
+            "specificity": 0.9639175257731959,
+            "f1_score": 0.9629629629629629,
+            "confusion_matrix": [
+                [
+                    187,
+                    7
+                ],
+                [
+                    33,
+                    520
+                ]
+            ]
+        }
+    ]
+}

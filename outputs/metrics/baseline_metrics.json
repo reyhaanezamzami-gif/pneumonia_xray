@@ -1,16 +1,16 @@
 {
-  "validation_samples": 783,
+  "validation_samples": 747,
   "feature_count": 6100,
   "models": {
     "SVM": {
-      "accuracy": 0.9821200510855683,
-      "pneumonia_recall": 0.9914089347079038,
-      "pneumonia_f1": 0.988013698630137
+      "accuracy": 0.9866131191432396,
+      "pneumonia_recall": 0.9855334538878843,
+      "pneumonia_f1": 0.990909090909091
     },
     "RandomForest": {
-      "accuracy": 0.9642401021711366,
-      "pneumonia_recall": 0.9862542955326461,
-      "pneumonia_f1": 0.9761904761904762
+      "accuracy": 0.9531459170013387,
+      "pneumonia_recall": 0.9801084990958409,
+      "pneumonia_f1": 0.968722073279714
     }
   }
 }

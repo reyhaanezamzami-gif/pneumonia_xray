@@ -37,6 +37,12 @@ RF_MODEL_PATH = MODELS_DIR / "baseline_rf.joblib"
 CNN_MODEL_PATH = MODELS_DIR / "mobilenetv2_best.keras"
 MOBILENET_WEIGHTS_PATH = MODELS_DIR / "mobilenet_v2_weights.h5"
 
+# Classification thresholds
+CNN_NIH_MODEL_PATH = MODELS_DIR / "mobilenetv2_nih.keras"
+CNN_NIH_VALIDATION_THRESHOLD = 0.45
+CNN_NIH_DEFAULT_EVALUATION_THRESHOLD = 0.50
+
+
 DATASET_SUMMARY_PATH = METRICS_DIR / "dataset_summary.json"
 BASELINE_METRICS_PATH = METRICS_DIR / "baseline_metrics.json"
 CNN_HISTORY_PATH = METRICS_DIR / "cnn_history.json"

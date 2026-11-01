@@ -1,0 +1,51 @@
+{
+    "model": "MobileNetV2 with NIH supplementary training data",
+    "threshold": 0.45,
+    "test_samples": 624,
+    "accuracy": 0.8541666666666666,
+    "balanced_accuracy": 0.8106837606837607,
+    "precision": 0.8187633262260128,
+    "recall": 0.9846153846153847,
+    "sensitivity": 0.9846153846153847,
+    "specificity": 0.6367521367521367,
+    "f1_score": 0.8940628637951106,
+    "roc_auc": 0.9601249178172254,
+    "pr_auc": 0.9722570590083579,
+    "confusion_matrix": [
+        [
+            149,
+            85
+        ],
+        [
+            6,
+            384
+        ]
+    ],
+    "classification_report": {
+        "NORMAL": {
+            "precision": 0.9612903225806452,
+            "recall": 0.6367521367521367,
+            "f1-score": 0.7660668380462725,
+            "support": 234.0
+        },
+        "PNEUMONIA": {
+            "precision": 0.8187633262260128,
+            "recall": 0.9846153846153847,
+            "f1-score": 0.8940628637951106,
+            "support": 390.0
+        },
+        "accuracy": 0.8541666666666666,
+        "macro avg": {
+            "precision": 0.8900268244033289,
+            "recall": 0.8106837606837607,
+            "f1-score": 0.8300648509206916,
+            "support": 624.0
+        },
+        "weighted avg": {
+            "precision": 0.8722109498589998,
+            "recall": 0.8541666666666666,
+            "f1-score": 0.8460643541392963,
+            "support": 624.0
+        }
+    }
+}

@@ -32,3 +32,17 @@ Thumbs.db
 # Dataset archives and duplicate data
 archive.zip
 chest_xray/
+
+# Ignore all datasets and trained model files
+data/
+models/
+backup_before_group_split/
+backup_before_upgrade/
+pneumonia_xray/
+
+# Ignore all datasets and trained model files
+data/
+models/
+backup_before_group_split/
+backup_before_upgrade/
+pneumonia_xray/
